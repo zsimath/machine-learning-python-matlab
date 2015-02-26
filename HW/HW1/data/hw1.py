@@ -1,0 +1,64 @@
+
+# coding: utf-8
+
+# In[17]:
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn import neighbors, datasets
+get_ipython().magic(u'matplotlib inline')
+
+
+# In[11]:
+
+# load the 'Fisher iris' data set
+iris = np.loadtxt(fname = 'iris.txt')
+y = iris[:,-1]
+X = iris[:,:-1]
+
+
+# In[16]:
+
+(m,n) = X.shape # m: num of data; n: num of feature
+
+
+# In[60]:
+
+# for each feature, plot a histogram of the data values
+plt.figure(figsize=[13,3])
+for i in range(n):
+    plt.subplot(1,4,i+1)
+    plt.hist(X[:,i],bins=20)
+
+
+# In[26]:
+
+mean = X.mean(axis=0)  # mean of the data points for each feature
+
+
+# In[27]:
+
+var = X.var(axis=0)  # variance for each feature
+std = X.std(axis=0)  # standard deriation for each feature
+
+
+# In[55]:
+
+# normalize data 
+tem1 = np.ones(X.shape)*mean
+tem2 = np.ones(X.shape)*std
+X = (X-tem1)/tem2
+
+
+# In[67]:
+
+# scatterplot
+i = 0; plt.figure(figsize=[15,4])
+for j in range(1,n):
+    plt.subplot(1,3,j); plt.hold(True)
+    ids = np.where(y==0); plt.plot(X[ids,i],X[ids,j],'b.')
+    ids = np.where(y==1); plt.plot(X[ids,i],X[ids,j],'g.')
+    ids = np.where(y==2); plt.plot(X[ids,i],X[ids,j],'r.')
+    plt.hold(False)
+
